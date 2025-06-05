@@ -1,6 +1,8 @@
-<x-app-layout>
-    <div class="container">
-    <h1 class="text-2xl font-semibold mb-4">Daftar Produk</h1>
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>Daftar Produk</h1>
 
     <!-- Tombol untuk menambahkan produk baru -->
     <a href="{{ route('products.create') }}" class="btn btn-success mb-3">Tambah Produk Baru</a>
@@ -28,7 +30,7 @@
             <tr>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->description }}</td>
-                <td>Rp{{ number_format($product->price, 2, ',', '.') }}</td>
+                <td>{{ $product->price }}</td>
                 <td>{{ $product->category->name }}</td>
                 <td>
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Edit</a>
@@ -46,4 +48,4 @@
     <!-- Menampilkan pagination -->
     {{ $products->links() }}
 </div>
-</x-app-layout>
+@endsection

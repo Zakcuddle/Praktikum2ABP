@@ -1,5 +1,7 @@
-<x-app-layout>
-    <div class="container">
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
     <h1>Edit Produk</h1>
 
     <!-- Menampilkan error validasi jika ada -->
@@ -28,7 +30,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="price" class="form-label">Harga Produk (Rp)</label>
+            <label for="price" class="form-label">Harga Produk</label>
             <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}" step="0.01" required>
         </div>
 
@@ -47,4 +49,4 @@
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
-</x-app-layout>
+@endsection

@@ -1,7 +1,10 @@
-<x-app-layout>
-    <div class="container">
-    <h1 class="text-2xl font-semibold mb-4">Tambah Produk Baru</h1>
+@extends('layouts.app')
 
+@section('content')
+<div class="container">
+    <h1>Tambah Produk Baru</h1>
+
+    <!-- Menampilkan error validasi jika ada -->
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -12,6 +15,7 @@
         </div>
     @endif
 
+    <!-- Form untuk menambahkan produk baru -->
     <form method="POST" action="{{ route('products.store') }}">
         @csrf
         <div class="mb-3">
@@ -25,7 +29,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="price" class="form-label">Harga Produk (Rp)</label>
+            <label for="price" class="form-label">Harga Produk</label>
             <input type="number" class="form-control" id="price" name="price" value="{{ old('price') }}" step="0.01" required>
         </div>
 
@@ -44,4 +48,4 @@
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
-</x-app-layout>
+@endsection
