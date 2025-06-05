@@ -37,14 +37,21 @@ class TransactionController extends Controller
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|numeric|min:0',
-            'total_price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:1',
             'transaction_date' => 'required|date',
         ]);
 
-        // Menyimpan transaksi baru ke database
-        Transaction::create($request->all());
+        $product = Product::findOrFail($request->product_id);
+        $totalPrice = $product->price * $request->quantity;
 
+        // Simpan data transaksi di database
+        Transaction::create([
+        'customer_id' => $request->customer_id,
+        'product_id' => $request->product_id,
+        'total_price' => $totalPrice,
+        'transaction_date' => $request->transaction_date,
+        ]);
+        
         // Redirect ke halaman daftar transaksi dengan pesan sukses
         return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil ditambahkan.');
     }
@@ -70,16 +77,23 @@ class TransactionController extends Controller
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|numeric|min:0',
-            'total_price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:1',
             'transaction_date' => 'required|date',
         ]);
+
+        $product = Product::findOrFail($request->product_id);
+        $totalPrice = $product->price * $request->quantity;
 
         // Cari transaksi berdasarkan ID
         $transaction = Transaction::findOrFail($id);
 
         // Update data transaksi di database
-        $transaction->update($request->all());
+        $transaction->update([
+        'customer_id' => $request->customer_id,
+        'product_id' => $request->product_id,
+        'total_price' => $totalPrice,
+        'transaction_date' => $request->transaction_date,
+        ]);
 
         // Redirect ke halaman daftar transaksi dengan pesan sukses
         return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil diupdate.');
@@ -98,4 +112,3 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dihapus.');
     }
 }
-
